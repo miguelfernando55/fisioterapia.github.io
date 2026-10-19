@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Centro Hípico — gestão de cavalos, equipa e atividades equestres.">
+  <title>Quinta do Vale | Centro Hípico</title>
+  <style>
+    :root {
+      --forest: #173d32;
+      --forest-2: #245747;
+      --cream: #f7f4ed;
+      --paper: #fffdf8;
+      --sand: #d9c5a0;
+      --gold: #b88a45;
+      --ink: #26312c;
+      --muted: #6e7972;
+      --line: #e6e0d4;
+      --shadow: 0 14px 36px rgba(31, 49, 39, .08);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--cream); color: var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    button, input, select { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
+    .layout { min-height: 100vh; display: grid; grid-template-columns: 248px minmax(0, 1fr); }
+    aside { background: var(--forest); color: #f8f6ef; padding: 28px 18px; display: flex; flex-direction: column; gap: 34px; }
+    .brand { display: flex; align-items: center; gap: 12px; padding: 0 8px; }
+    .brand-mark { width: 42px; height: 42px; display: grid; place-items: center; background: var(--sand); color: var(--forest); border-radius: 14px; font-size: 22px; }
+    .brand strong { display: block; font-family: Georgia, serif; font-size: 18px; letter-spacing: .2px; }
+    .brand small { display: block; color: #c8d6cd; margin-top: 3px; font-size: 11px; letter-spacing: 1.4px; text-transform: uppercase; }
+    .nav-label { color: #9fb9ab; font-size: 10px; letter-spacing: 1.8px; text-transform: uppercase; padding: 0 12px; margin-bottom: 10px; }
+    nav { display: grid; gap: 6px; }
+    .nav-link { display: flex; align-items: center; gap: 12px; padding: 12px 13px; border-radius: 12px; color: #d6e0d9; font-size: 14px; transition: .2s; }
+    .nav-link:hover, .nav-link.active { background: rgba(255,255,255,.12); color: #fff; }
+    .nav-icon { width: 20px; text-align: center; font-size: 17px; }
+    .aside-note { margin-top: auto; padding: 17px; border: 1px solid rgba(255,255,255,.15); border-radius: 16px; background: rgba(255,255,255,.05); }
+    .aside-note strong { display: block; font-family: Georgia, serif; font-size: 16px; font-weight: 500; }
+    .aside-note p { color: #c8d6cd; font-size: 12px; line-height: 1.6; margin: 8px 0 0; }
+    main { min-width: 0; padding: 28px clamp(18px, 4vw, 54px) 48px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 28px; }
+    .eyebrow { color: var(--gold); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-family: Georgia, "Times New Roman", serif; font-weight: 500; font-size: clamp(28px, 3vw, 39px); letter-spacing: -.8px; margin: 8px 0 0; }
+    .top-actions { display: flex; gap: 10px; align-items: center; }
+    .today { color: var(--muted); font-size: 12px; white-space: nowrap; }
+    .button { border: 0; border-radius: 11px; padding: 11px 15px; background: var(--forest); color: white; font-weight: 700; font-size: 13px; cursor: pointer; display: inline-flex; gap: 8px; align-items: center; justify-content: center; transition: .2s; }
+    .button:hover { background: var(--forest-2); transform: translateY(-1px); }
+    .button.secondary { background: #fffdf8; border: 1px solid var(--line); color: var(--forest); }
+    .hero { background: var(--forest); border-radius: 22px; padding: clamp(23px, 4vw, 40px); color: #fffdf7; display: grid; grid-template-columns: 1.2fr .8fr; gap: 24px; align-items: center; overflow: hidden; position: relative; box-shadow: var(--shadow); }
+    .hero:after { content: "♞"; position: absolute; right: 4%; bottom: -72px; font-size: 250px; line-height: 1; color: rgba(255,255,255,.055); pointer-events: none; }
+    .hero .eyebrow { color: #d9c5a0; }
+    .hero h2 { font-family: Georgia, serif; font-size: clamp(27px, 3vw, 40px); line-height: 1.12; font-weight: 500; margin: 12px 0; max-width: 530px; }
+    .hero p { color: #d3e0d7; line-height: 1.7; font-size: 14px; max-width: 500px; margin-bottom: 22px; }
+    .hero .button { background: var(--sand); color: var(--forest); }
+    .hero-art { position: relative; z-index: 1; justify-self: end; width: min(100%, 290px); aspect-ratio: 1.1; border-radius: 18px; background: linear-gradient(145deg, rgba(217,197,160,.22), rgba(255,255,255,.04)); border: 1px solid rgba(255,255,255,.14); display: grid; place-items: center; }
+    .horse-symbol { font-size: clamp(100px, 13vw, 155px); filter: grayscale(1) brightness(0) invert(1); opacity: .88; transform: translateY(-3px); }
+    .hero-caption { position: absolute; bottom: 15px; left: 17px; color: #d8e3db; font-size: 10px; letter-spacing: 1.8px; text-transform: uppercase; }
+    .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin: 22px 0 30px; }
+    .stat { padding: 18px; background: var(--paper); border: 1px solid var(--line); border-radius: 16px; }
+    .stat-top { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 12px; gap: 8px; }
+    .stat-icon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: #f0eadc; font-size: 16px; }
+    .stat-number { font-family: Georgia, serif; font-size: 31px; margin-top: 11px; }
+    .stat-foot { color: var(--muted); font-size: 11px; margin-top: 4px; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 16px; }
+    .section-head h2 { font-family: Georgia, serif; font-size: 26px; font-weight: 500; margin: 5px 0 0; }
+    .section-head p { margin: 7px 0 0; color: var(--muted); font-size: 13px; }
+    .filters { display: flex; gap: 9px; flex-wrap: wrap; }
+    .search { min-width: 180px; border: 1px solid var(--line); background: var(--paper); padding: 10px 12px; border-radius: 10px; outline: none; color: var(--ink); }
+    .search:focus, .field input:focus, .field select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,138,69,.12); }
+    .horse-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; }
+    .horse-card { background: var(--paper); border: 1px solid var(--line); border-radius: 17px; overflow: hidden; transition: .2s; }
+    .horse-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+    .horse-cover { height: 112px; display: flex; justify-content: space-between; align-items: start; padding: 14px; background: linear-gradient(135deg, #e4dfd1, #c8d3c8); }
+    .horse-cover.chestnut { background: linear-gradient(135deg, #e6d2bd, #c69a75); }
+    .horse-cover.grey { background: linear-gradient(135deg, #e1e5e2, #aab8b1); }
+    .horse-cover.dark { background: linear-gradient(135deg, #c9d1c8, #71887a); }
+    .horse-emoji { font-size: 59px; line-height: .95; filter: saturate(.55); }
+    .status { font-size: 10px; font-weight: 800; border-radius: 100px; padding: 6px 9px; background: #e5f0e7; color: #326443; }
+    .status.attention { background: #fff0d7; color: #95651c; }
+    .status.rest { background: #e9e9e7; color: #626963; }
+    .horse-body { padding: 16px; }
+    .horse-title { display: flex; align-items: start; justify-content: space-between; gap: 10px; }
+    .horse-title h3 { font-family: Georgia, serif; font-size: 21px; font-weight: 500; margin: 0; }
+    .horse-title small { color: var(--muted); font-size: 11px; display: block; margin-top: 4px; }
+    .horse-info { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 13px 0; margin: 15px 0; }
+    .info-label { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+    .info-value { font-size: 12px; font-weight: 700; margin-top: 5px; }
+    .horse-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .horse-footer span { color: var(--muted); font-size: 11px; }
+    .text-button { border: 0; background: transparent; color: var(--forest-2); font-weight: 800; font-size: 12px; cursor: pointer; padding: 5px 0; }
+    .empty { grid-column: 1 / -1; text-align: center; padding: 38px 18px; border: 1px dashed #cfc8b9; border-radius: 16px; color: var(--muted); }
+    .lower-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 16px; margin-top: 30px; }
+    .panel { background: var(--paper); border: 1px solid var(--line); border-radius: 17px; padding: 20px; min-width: 0; }
+    .panel h3 { font-family: Georgia, serif; font-weight: 500; font-size: 21px; margin: 0 0 16px; }
+    .task-list { display: grid; gap: 14px; }
+    .task { display: flex; gap: 12px; align-items: start; }
+    .task-mark { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 10px; background: #f0eadc; flex-shrink: 0; }
+    .task strong { display: block; font-size: 12px; margin: 1px 0 4px; }
+    .task small { color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .task time { margin-left: auto; white-space: nowrap; color: var(--muted); font-size: 10px; }
+    .notice { background: #f7f0e2; border-radius: 12px; padding: 14px; color: #72582d; font-size: 12px; line-height: 1.6; }
+    footer { color: var(--muted); text-align: center; font-size: 11px; margin-top: 34px; }
+    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(17,31,25,.55); z-index: 10; padding: 18px; align-items: center; justify-content: center; }
+    .modal-backdrop.open { display: flex; }
+    .modal { width: min(100%, 520px); max-height: 90vh; overflow: auto; background: var(--paper); border-radius: 20px; padding: 25px; box-shadow: 0 25px 80px rgba(0,0,0,.2); }
+    .modal-head { display: flex; align-items: start; justify-content: space-between; gap: 15px; margin-bottom: 20px; }
+    .modal-head h2 { font-family: Georgia, serif; font-weight: 500; margin: 5px 0 0; font-size: 27px; }
+    .close { border: 0; background: #f0eadc; border-radius: 10px; width: 34px; height: 34px; cursor: pointer; font-size: 19px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field { display: grid; gap: 7px; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { color: var(--muted); font-size: 11px; font-weight: 800; }
+    .field input, .field select { min-width: 0; width: 100%; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: white; outline: none; }
+    .form-actions { display: flex; justify-content: end; gap: 10px; margin-top: 22px; }
+    .toast { position: fixed; right: 20px; bottom: 20px; z-index: 20; background: var(--forest); color: white; padding: 13px 17px; border-radius: 12px; box-shadow: var(--shadow); font-size: 13px; opacity: 0; transform: translateY(8px); pointer-events: none; transition: .25s; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    @media (max-width: 1050px) { .layout { grid-template-columns: 210px minmax(0,1fr); } .horse-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .stats { grid-template-columns: repeat(2,minmax(0,1fr)); } .hero { grid-template-columns: 1fr .6fr; } }
+    @media (max-width: 760px) { .layout { display: block; } aside { padding: 15px 16px; gap: 15px; } .brand { padding: 0; } .nav-label, .aside-note { display: none; } nav { display: flex; overflow-x: auto; padding-bottom: 2px; } .nav-link { white-space: nowrap; padding: 9px 11px; font-size: 12px; } main { padding: 22px 16px 35px; } .topbar { align-items: start; } .today { display: none; } .hero { grid-template-columns: 1fr; } .hero-art { display: none; } .horse-grid { grid-template-columns: 1fr; } .lower-grid { grid-template-columns: 1fr; } .section-head { align-items: start; flex-direction: column; } .filters { width: 100%; } .search { flex: 1; min-width: 0; } }
+    @media (max-width: 430px) { .stats { gap: 9px; } .stat { padding: 13px; } .stat-number { font-size: 27px; } .top-actions .button { padding: 10px; font-size: 12px; } .form-grid { grid-template-columns: 1fr; } .field.full { grid-column: auto; } }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <aside>
+    <a class="brand" href="#inicio" aria-label="Quinta do Vale, início">
+      <span class="brand-mark">♞</span>
+      <span><strong>Quinta do Vale</strong><small>Centro Hípico</small></span>
+    </a>
+    <div>
+      <div class="nav-label">Menu principal</div>
+      <nav>
+        <a class="nav-link active" href="#inicio"><span class="nav-icon">⌂</span> Visão geral</a>
+        <a class="nav-link" href="#cavalos"><span class="nav-icon">♞</span> Cavalos</a>
+        <a class="nav-link" href="#rotina"><span class="nav-icon">◷</span> Rotina diária</a>
+        <a class="nav-link" href="#cuidados"><span class="nav-icon">♡</span> Cuidados</a>
+      </nav>
+    </div>
+    <div class="aside-note">
+      <strong>Um centro, muitas histórias.</strong>
+      <p>Organize a informação dos seus cavalos num só lugar e acompanhe a rotina com mais facilidade.</p>
+    </div>
+  </aside>
+
+  <main id="inicio">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">Gestão do centro</div>
+        <h1>Bom dia, equipa.</h1>
+      </div>
+      <div class="top-actions">
+        <span class="today" id="today"></span>
+        <button class="button" id="addHorseTop">＋ Novo cavalo</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Quinta do Vale · Desde 2012</div>
+        <h2>Cuidado, confiança e paixão pelo mundo equestre.</h2>
+        <p>Uma visão simples da vida no centro hípico: os cavalos, os cuidados e as tarefas que mantêm tudo em harmonia.</p>
+        <a class="button" href="#cavalos">Explorar os cavalos <span>↗</span></a>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="horse-symbol">♞</div>
+        <div class="hero-caption">Bem-estar em primeiro lugar</div>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Resumo do centro">
+      <article class="stat"><div class="stat-top">Total de cavalos <span class="stat-icon">♞</span></div><div class="stat-number" id="statTotal">0</div><div class="stat-foot">Registos no centro</div></article>
+      <article class="stat"><div class="stat-top">Em atividade <span class="stat-icon">↗</span></div><div class="stat-number" id="statActive">0</div><div class="stat-foot">Disponíveis para trabalho</div></article>
+      <article class="stat"><div class="stat-top">Acompanhamento <span class="stat-icon">♡</span></div><div class="stat-number" id="statCare">0</div><div class="stat-foot">Cuidados a acompanhar</div></article>
+      <article class="stat"><div class="stat-top">Em descanso <span class="stat-icon">☾</span></div><div class="stat-number" id="statRest">0</div><div class="stat-foot">Pausa ou recuperação</div></article>
+    </section>
+
+    <section id="cavalos">
+      <div class="section-head">
+        <div><div class="eyebrow">A nossa família</div><h2>Os cavalos</h2><p>Os cartões e os indicadores são atualizados a partir dos registos.</p></div>
+        <div class="filters">
+          <input class="search" id="horseSearch" type="search" placeholder="Pesquisar por nome ou raça…" aria-label="Pesquisar cavalos">
+          <select class="search" id="statusFilter" aria-label="Filtrar por estado"><option value="all">Todos os estados</option><option value="Ativo">Em atividade</option><option value="Acompanhamento">Acompanhamento</option><option value="Descanso">Em descanso</option></select>
+        </div>
+      </div>
+      <div class="horse-grid" id="horseGrid"></div>
+    </section>
+
+    <section class="lower-grid">
+      <article class="panel" id="rotina">
+        <h3>Rotina diária</h3>
+        <div class="task-list">
+          <div class="task"><span class="task-mark">☀</span><div><strong>Alimentação da manhã</strong><small>Confirmar água fresca e plano alimentar de cada cavalo.</small></div><time>08:00</time></div>
+          <div class="task"><span class="task-mark">♧</span><div><strong>Limpeza das boxes</strong><small>Higienizar as boxes e verificar o conforto dos animais.</small></div><time>09:00</time></div>
+          <div class="task"><span class="task-mark">♞</span><div><strong>Treino e exercício</strong><small>Consultar a disponibilidade e adaptar o trabalho.</small></div><time>10:30</time></div>
+          <div class="task"><span class="task-mark">♡</span><div><strong>Verificação de bem-estar</strong><small>Registar observações e comunicar alterações à equipa.</small></div><time>Diário</time></div>
+        </div>
+      </article>
+      <article class="panel" id="cuidados">
+        <h3>Cuidados a acompanhar</h3>
+        <div class="notice">Este painel é um exemplo inicial. Use o estado de cada cavalo para sinalizar os casos que precisam de atenção e registe sempre os cuidados com a equipa responsável.</div>
+        <div class="task-list" id="careList" style="margin-top:16px"></div>
+      </article>
+    </section>
+    <footer>Quinta do Vale · Centro Hípico <span id="year"></span> · Painel demonstrativo</footer>
+  </main>
+</div>
+
+<div class="modal-backdrop" id="horseModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modal-head"><div><div class="eyebrow">Registo equino</div><h2 id="modalTitle">Adicionar cavalo</h2></div><button class="close" id="closeModal" aria-label="Fechar">×</button></div>
+    <form id="horseForm">
+      <input type="hidden" id="horseId">
+      <div class="form-grid">
+        <div class="field"><label for="horseName">Nome *</label><input id="horseName" required maxlength="60" placeholder="Ex.: Estrela"></div>
+        <div class="field"><label for="horseBreed">Raça</label><input id="horseBreed" maxlength="60" placeholder="Ex.: Lusitano"></div>
+        <div class="field"><label for="horseAge">Idade (anos)</label><input id="horseAge" type="number" min="0" max="60" placeholder="Ex.: 8"></div>
+        <div class="field"><label for="horseSex">Sexo</label><select id="horseSex"><option>Égua</option><option>Cavalo</option><option>Garanhão</option><option>Pónei</option></select></div>
+        <div class="field"><label for="horseStatus">Estado</label><select id="horseStatus"><option>Ativo</option><option>Acompanhamento</option><option>Descanso</option></select></div>
+        <div class="field"><label for="horseCoat">Pelagem / identificação</label><select id="horseCoat"><option value="bay">Castanho</option><option value="chestnut">Alazão</option><option value="grey">Ruço</option><option value="dark">Escuro</option></select></div>
+        <div class="field full"><label for="horseNotes">Notas de acompanhamento</label><input id="horseNotes" maxlength="180" placeholder="Ex.: ferragem prevista, observações..."></div>
+      </div>
+      <div class="form-actions"><button type="button" class="button secondary" id="cancelModal">Cancelar</button><button type="submit" class="button">Guardar registo</button></div>
+    </form>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  // Dados de demonstração: substitua estes exemplos pelos dados reais do centro.
+  const initialHorses = [
+    { id: 1, name: "Estrela", breed: "Lusitano", age: 8, sex: "Égua", status: "Ativo", coat: "bay", notes: "Treino de dressage às terças e quintas." },
+    { id: 2, name: "Fidalgo", breed: "Cruzado", age: 12, sex: "Cavalo", status: "Acompanhamento", coat: "chestnut", notes: "Acompanhar ferragem e conforto dos cascos." },
+    { id: 3, name: "Lua", breed: "Puro-Sangue Árabe", age: 6, sex: "Égua", status: "Ativo", coat: "grey", notes: "Disponível para aulas de nível intermédio." },
+    { id: 4, name: "Duque", breed: "Lusitano", age: 15, sex: "Garanhão", status: "Descanso", coat: "dark", notes: "Período de descanso. Rever plano com responsável." },
+    { id: 5, name: "Canela", breed: "Pónei", age: 9, sex: "Pónei", status: "Ativo", coat: "chestnut", notes: "Adequada para iniciação, conforme avaliação da equipa." }
+  ];
+  const STORAGE_KEY = "quinta-do-vale-horses-v1";
+  let horses = loadHorses();
+  const $ = (id) => document.getElementById(id);
+
+  function loadHorses() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? JSON.parse(saved) : initialHorses;
+    } catch (error) { return initialHorses; }
+  }
+  function saveHorses() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(horses)); }
+    catch (error) { showToast("Não foi possível guardar neste navegador."); }
+  }
+  function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[char]));
+  }
+  function statusClass(status) {
+    return status === "Acompanhamento" ? "attention" : status === "Descanso" ? "rest" : "";
+  }
+  function statusLabel(status) {
+    return status === "Ativo" ? "Em atividade" : status === "Descanso" ? "Em descanso" : status;
+  }
+  function render() {
+    const query = $("horseSearch").value.trim().toLocaleLowerCase("pt-PT");
+    const filter = $("statusFilter").value;
+    const visible = horses.filter(h => {
+      const matchesText = `${h.name} ${h.breed} ${h.notes}`.toLocaleLowerCase("pt-PT").includes(query);
+      return matchesText && (filter === "all" || h.status === filter);
+    });
+    $("horseGrid").innerHTML = visible.length ? visible.map(h => `
+      <article class="horse-card">
+        <div class="horse-cover ${escapeHTML(h.coat)}">
+          <span class="horse-emoji" aria-hidden="true">♞</span>
+          <span class="status ${statusClass(h.status)}">${escapeHTML(statusLabel(h.status))}</span>
+        </div>
+        <div class="horse-body">
+          <div class="horse-title"><div><h3>${escapeHTML(h.name)}</h3><small>${escapeHTML(h.breed || "Raça não indicada")}</small></div><span aria-hidden="true">⋯</span></div>
+          <div class="horse-info">
+            <div><div class="info-label">Idade</div><div class="info-value">${h.age !== "" && h.age != null ? escapeHTML(h.age) + " anos" : "Não indicada"}</div></div>
+            <div><div class="info-label">Identificação</div><div class="info-value">${escapeHTML(h.sex || "Não indicada")}</div></div>
+          </div>
+          <div class="horse-footer"><span>${h.notes ? "Tem notas registadas" : "Sem notas adicionais"}</span><button class="text-button" data-edit="${h.id}">Ver / editar ↗</button></div>
+        </div>
+      </article>`).join("") : `<div class="empty">Não foram encontrados cavalos com estes critérios.</div>`;
+
+    $("statTotal").textContent = horses.length;
+    $("statActive").textContent = horses.filter(h => h.status === "Ativo").length;
+    $("statCare").textContent = horses.filter(h => h.status === "Acompanhamento").length;
+    $("statRest").textContent = horses.filter(h => h.status === "Descanso").length;
+
+    const care = horses.filter(h => h.status === "Acompanhamento" || h.status === "Descanso");
+    $("careList").innerHTML = care.length ? care.map(h => `
+      <div class="task"><span class="task-mark">${h.status === "Descanso" ? "☾" : "♡"}</span>
+      <div><strong>${escapeHTML(h.name)} · ${escapeHTML(h.status)}</strong><small>${escapeHTML(h.notes || "Adicionar notas de acompanhamento ao registo.")}</small></div></div>`).join("") :
+      `<div class="task"><span class="task-mark">✓</span><div><strong>Sem alertas registados</strong><small>Não existem cavalos marcados para acompanhamento ou descanso.</small></div></div>`;
+  }
+  function openModal(horse) {
+    $("horseForm").reset();
+    $("horseId").value = horse ? horse.id : "";
+    $("modalTitle").textContent = horse ? "Editar cavalo" : "Adicionar cavalo";
+    $("horseName").value = horse?.name || "";
+    $("horseBreed").value = horse?.breed || "";
+    $("horseAge").value = horse?.age ?? "";
+    $("horseSex").value = horse?.sex || "Égua";
+    $("horseStatus").value = horse?.status || "Ativo";
+    $("horseCoat").value = horse?.coat || "bay";
+    $("horseNotes").value = horse?.notes || "";
+    $("horseModal").classList.add("open");
+    $("horseName").focus();
+  }
+  function closeModal() { $("horseModal").classList.remove("open"); }
+  let toastTimer;
+  function showToast(message) {
+    $("toast").textContent = message;
+    $("toast").classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => $("toast").classList.remove("show"), 2600);
+  }
+  $("addHorseTop").addEventListener("click", () => openModal(null));
+  $("closeModal").addEventListener("click", closeModal);
+  $("cancelModal").addEventListener("click", closeModal);
+  $("horseModal").addEventListener("click", event => { if (event.target === $("horseModal")) closeModal(); });
+  document.addEventListener("keydown", event => { if (event.key === "Escape") closeModal(); });
+  $("horseSearch").addEventListener("input", render);
+  $("statusFilter").addEventListener("change", render);
+  $("horseGrid").addEventListener("click", event => {
+    const button = event.target.closest("[data-edit]");
+    if (!button) return;
+    const horse = horses.find(h => h.id === Number(button.dataset.edit));
+    if (horse) openModal(horse);
+  });
+  $("horseForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const id = $("horseId").value;
+    const record = {
+      id: id ? Number(id) : Date.now(),
+      name: $("horseName").value.trim(),
+      breed: $("horseBreed").value.trim(),
+      age: $("horseAge").value === "" ? "" : Number($("horseAge").value),
+      sex: $("horseSex").value,
+      status: $("horseStatus").value,
+      coat: $("horseCoat").value,
+      notes: $("horseNotes").value.trim()
+    };
+    if (!record.name) return;
+    if (id) horses = horses.map(h => h.id === Number(id) ? record : h);
+    else horses.unshift(record);
+    saveHorses();
+    render();
+    closeModal();
+    showToast(id ? "Registo atualizado." : "Cavalo adicionado.");
+  });
+
+  const now = new Date();
+  $("today").textContent = new Intl.DateTimeFormat("pt-PT", { day: "numeric", month: "long", year: "numeric" }).format(now);
+  $("year").textContent = now.getFullYear();
+  render();
+</script>
+</body>
+</html>
